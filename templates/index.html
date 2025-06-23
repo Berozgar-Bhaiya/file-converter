@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}File Converter - Convert PDF, Images, Video & Documents{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h1 class="card-title mb-0">
+                    <i class="fas fa-magic me-2"></i>
+                    File Converter
+                </h1>
+                <p class="text-muted mt-2 mb-0">Convert your files between different formats</p>
+            </div>
+            
+            <div class="card-body">
+                <form id="conversionForm" action="{{ url_for('convert_file') }}" method="POST" enctype="multipart/form-data">
+                    <!-- Conversion Type Selection -->
+                    <div class="mb-4">
+                        <label for="conversion_type" class="form-label">
+                            <i class="fas fa-cog me-2"></i>
+                            Select Conversion Type
+                        </label>
+                        <select class="form-select" id="conversion_type" name="conversion_type" required>
+                            <option value="">Choose conversion type...</option>
+                            
+                            <optgroup label="📄 Document Conversions">
+                                <option value="pdf_to_docx">PDF to DOCX</option>
+                                <option value="docx_to_pdf">DOCX to PDF</option>
+                                <option value="doc_to_pdf">DOC to PDF</option>
+                                <option value="pptx_to_pdf">PPTX to PDF</option>
+                                <option value="pdf_to_txt">PDF to TXT</option>
+                                <option value="txt_to_pdf">TXT to PDF</option>
+                                <option value="xlsx_to_csv">XLSX to CSV</option>
+                                <option value="csv_to_xlsx">CSV to XLSX</option>
+                                <option value="xlsx_to_pdf">XLSX to PDF</option>
+                                <option value="csv_to_pdf">CSV to PDF</option>
+                                <option value="html_to_pdf">HTML to PDF</option>
+                                <option value="epub_to_pdf">EPUB to PDF</option>
+                                <option value="pdf_to_html">PDF to HTML</option>
+                            </optgroup>
+                            
+                            <optgroup label="🖼️ Image Conversions">
+                                <option value="jpg_to_png">JPG to PNG</option>
+                                <option value="png_to_jpg">PNG to JPG</option>
+                                <option value="webp_to_jpg">WEBP to JPG</option>
+                                <option value="jpg_to_webp">JPG to WEBP</option>
+                                <option value="image_to_pdf">Image to PDF</option>
+                                <option value="pdf_to_png">PDF to PNG (All Pages)</option>
+                                <option value="bmp_to_png">BMP to PNG</option>
+                            </optgroup>
+                            
+                            <optgroup label="🎵 Audio Conversions">
+                                <option value="mp3_to_wav">MP3 to WAV</option>
+                                <option value="wav_to_mp3">WAV to MP3</option>
+                                <option value="mp4_to_mp3">MP4 to MP3</option>
+                                <option value="ogg_to_mp3">OGG to MP3</option>
+                            </optgroup>
+                            
+                            <optgroup label="🎥 Video Conversions">
+                                <option value="mp4_to_avi">MP4 to AVI</option>
+                                <option value="avi_to_mp4">AVI to MP4</option>
+                                <option value="mkv_to_mp4">MKV to MP4</option>
+                                <option value="mp4_to_webm">MP4 to WebM</option>
+                            </optgroup>
+                            
+                            <optgroup label="⚡ Extras">
+                                <option value="compress_pdf">Compress PDF</option>
+                                <option value="merge_pdfs">Merge PDFs</option>
+                                <option value="merge_images">Merge Images to PDF</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="mb-4">
+                        <label for="file" class="form-label">
+                            <i class="fas fa-upload me-2"></i>
+                            <span id="fileLabel">Choose File</span>
+                        </label>
+                        <div class="file-upload-wrapper">
+                            <!-- Single file input (default) -->
+                            <input type="file" class="form-control" id="file" name="file" required>
+                            <!-- Multiple files input (for PDF merge and image merge) -->
+                            <input type="file" class="form-control d-none" id="files" name="files" multiple>
+                            <div class="file-info mt-2 text-muted">
+                                <small id="fileInfo">Maximum file size: 50MB</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supported Formats Info -->
+                    <div class="mb-4">
+                        <div class="alert alert-info">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Supported Formats
+                            </h6>
+                            <div class="row small">
+                                <div class="col-md-4">
+                                    <h6 class="text-primary">📄 Documents</h6>
+                                    <ul class="list-unstyled mb-3">
+                                        <li>PDF ↔ DOCX/TXT/HTML</li>
+                                        <li>DOCX/DOC/PPTX → PDF</li>
+                                        <li>XLSX ↔ CSV</li>
+                                        <li>XLSX/CSV → PDF</li>
+                                        <li>HTML/EPUB → PDF</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-success">🖼️ Images</h6>
+                                    <ul class="list-unstyled mb-3">
+                                        <li>JPG ↔ PNG ↔ WEBP</li>
+                                        <li>BMP → PNG</li>
+                                        <li>Any Image → PDF</li>
+                                        <li>PDF → PNG (All Pages)</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="text-warning">🎵🎥 Media</h6>
+                                    <ul class="list-unstyled mb-3">
+                                        <li>MP3 ↔ WAV, OGG → MP3</li>
+                                        <li>MP4 → MP3/AVI/WebM</li>
+                                        <li>AVI/MKV → MP4</li>
+                                        <li>PDF Compression & Merge</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                            <i class="fas fa-play me-2"></i>
+                            Convert File
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Progress indicator (hidden by default) -->
+                <div id="progressSection" class="mt-4" style="display: none;">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Converting...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Converting your file, please wait...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row mt-4">
+            <div class="col-12 text-center mb-3">
+                <h4 class="text-muted">30+ Conversion Types Supported</h4>
+                <p class="text-muted">Professional file conversion with high quality output</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-6 col-md-3 mb-4">
+                <div class="card h-100 border-primary">
+                    <div class="card-header bg-primary text-white text-center">
+                        <i class="fas fa-file-pdf fa-2x mb-2"></i>
+                        <h6 class="mb-0">Document Conversions</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled small">
+                            <li>• PDF ↔ DOCX</li>
+                            <li>• DOCX/DOC → PDF</li>
+                            <li>• PPTX → PDF</li>
+                            <li>• PDF → TXT/HTML</li>
+                            <li>• TXT → PDF</li>
+                            <li>• XLSX ↔ CSV</li>
+                            <li>• XLSX/CSV → PDF</li>
+                            <li>• HTML/EPUB → PDF</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <div class="card h-100 border-success">
+                    <div class="card-header bg-success text-white text-center">
+                        <i class="fas fa-image fa-2x mb-2"></i>
+                        <h6 class="mb-0">Image Conversions</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled small">
+                            <li>• JPG ↔ PNG</li>
+                            <li>• WEBP ↔ JPG</li>
+                            <li>• BMP → PNG</li>
+                            <li>• Any Image → PDF</li>
+                            <li>• PDF → PNG (All Pages)</li>
+                            <li>• High quality output</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <div class="card h-100 border-warning">
+                    <div class="card-header bg-warning text-dark text-center">
+                        <i class="fas fa-music fa-2x mb-2"></i>
+                        <h6 class="mb-0">Audio & Video</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled small">
+                            <li>• MP3 ↔ WAV</li>
+                            <li>• MP4 → MP3</li>
+                            <li>• MP4 ↔ AVI</li>
+                            <li>• High quality audio</li>
+                            <li>• Fast conversion</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <div class="card h-100 border-info">
+                    <div class="card-header bg-info text-white text-center">
+                        <i class="fas fa-tools fa-2x mb-2"></i>
+                        <h6 class="mb-0">Extra Tools</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled small">
+                            <li>• Compress PDF</li>
+                            <li>• Merge Multiple PDFs</li>
+                            <li>• Merge Images to PDF</li>
+                            <li>• File size optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

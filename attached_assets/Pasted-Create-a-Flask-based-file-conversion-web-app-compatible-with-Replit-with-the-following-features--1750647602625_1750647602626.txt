@@ -1,0 +1,110 @@
+Create a Flask-based file conversion web app (compatible with Replit) with the following features:
+
+---
+
+🔹 USER FEATURES:
+1. Upload any file (max 50MB)
+2. Select conversion type from dropdown
+3. Press submit → file is converted → downloadable result shown
+
+---
+
+🔹 FILE SIZE:
+- Allow files up to 50MB
+- Show error if file too large
+
+---
+
+🔹 CONVERSION TYPES TO SUPPORT (30+):
+
+🔸 Documents:
+- PDF to DOCX
+- DOCX to PDF
+- DOC to PDF
+- PPTX to PDF
+- PDF to TXT
+- TXT to PDF
+- XLSX to CSV
+- CSV to XLSX
+- XLSX to PDF
+- CSV to PDF
+- HTML to PDF
+- EPUB to PDF
+- PDF to HTML
+
+🔸 Images:
+- JPG to PNG
+- PNG to JPG
+- WEBP to JPG
+- JPG to WEBP
+- Image to PDF
+- PDF to Image
+- BMP to PNG
+- HEIC to JPG (optional if Replit supports it)
+
+🔸 Audio:
+- MP3 to WAV
+- WAV to MP3
+- MP4 to MP3
+- Audio Cutter (trim to 30 sec, optional)
+- OGG to MP3
+
+🔸 Video:
+- MP4 to AVI
+- AVI to MP4
+- MKV to MP4
+- MP4 to WebM
+
+🔸 Extras:
+- Compress PDF
+- Merge PDFs (multi-upload optional)
+- Extract text from image (OCR)
+- ZIP to RAR (optional if Replit allows)
+- Image Resize (optional)
+
+---
+
+🔹 TECH STACK:
+- Flask for backend
+- HTML + Jinja2 for frontend
+- SQLite (optional for tracking)
+- Compatible with Replit (Linux env)
+
+---
+
+🔹 LIBRARIES TO USE:
+- Flask
+- PyMuPDF (`fitz`) – PDF handling
+- Pillow – image conversions
+- pdf2docx – PDF to DOCX
+- pdfkit / reportlab / fpdf – PDF generation
+- FFmpeg – audio/video conversions
+- pandas / openpyxl – Excel/CSV conversions
+- Tesseract (OCR)
+- subprocess – to call CLI tools like libreoffice, ffmpeg
+
+---
+
+🔹 UI:
+- Clean HTML form with:
+  - Upload field
+  - Dropdown of all conversions
+  - Submit button
+- Show download link after conversion
+- Error/success messages
+- Mobile responsive basic layout
+
+---
+
+🔹 EXTRAS:
+- Delete old converted files after download (optional)
+- Requirements.txt for all libraries
+- Compatible with free Replit (no login required)
+
+---
+
+🧠 Make the code modular and scalable so that more conversions can be added later.
+Provide:
+- main.py (Flask logic)
+- templates/index.html (upload UI)
+- requirements.txt (all dependencies)
