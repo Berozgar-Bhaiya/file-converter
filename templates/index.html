@@ -3,6 +3,23 @@
 {% block title %}File Converter - Convert PDF, Images, Video & Documents{% endblock %}
 
 {% block content %}
+ <!-- Loading Screen -->
+  <div id="loading" style="text-align: center; padding: 40px; font-size: 20px; color: #555;">
+    🚀 Loading the magic converter... please wait.
+  </div>
+
+  <!-- Your actual app content here -->
+  <div id="main-content" style="display: none;">
+    <!-- your form, buttons, etc. -->
+  </div>
+
+  <!-- JavaScript to hide loading when ready -->
+  <script>
+    window.addEventListener('load', () => {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    });
+  </script>
 <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
         <div class="card shadow-lg">
